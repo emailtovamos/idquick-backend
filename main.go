@@ -49,7 +49,7 @@ func enableCORS(next http.Handler) http.Handler {
 func initDB() *gorm.DB {
 	// psql -U newuser -d satyajit
 
-    dsn := "host=localhost user=newuser password=password dbname=satyajit port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+    dsn := "host=postgresql user=newuser password=password dbname=satyajit port=5432 sslmode=disable TimeZone=Asia/Shanghai"
     db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
     if err != nil {
         log.Fatalf("failed to connect database: %v", err)
