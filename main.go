@@ -21,9 +21,9 @@ import (
 // User data structure
 type User struct {
     gorm.Model
-    Address   string `gorm:"uniqueIndex"`
-    DataHash  string
-    AccessCode string
+    Address   string `json:"userAddress" gorm:"uniqueIndex"`
+    DataHash  string `json:"userData"`
+    AccessCode string `json:"userAccessCode"`
 }
 
 // CORS middleware to allow cross-origin requests
@@ -47,6 +47,8 @@ func enableCORS(next http.Handler) http.Handler {
 
 // Connect to the PostgreSQL database
 func initDB() *gorm.DB {
+	// psql -U newuser -d satyajit
+
     dsn := "host=localhost user=newuser password=password dbname=satyajit port=5432 sslmode=disable TimeZone=Asia/Shanghai"
     db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
     if err != nil {
@@ -69,7 +71,10 @@ func initEthClient() *ethclient.Client {
 
 // Register user data
 func registerUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+	fmt.Println("About to register user")
+	// todo show the code for this and react to ChatGPT and ask to correct as currently the user isn't getting stored!
     var user User
+	fmt.Println(r.Body)
     err := json.NewDecoder(r.Body).Decode(&user)
     if err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
@@ -82,7 +87,7 @@ func registerUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
     if existingUser.ID != 0 {
         user.ID = existingUser.ID // Use existing record
     }
-
+	fmt.Println("About to register user", user.Address)
     // Here you would hash the user data and send it to the smart contract
     // For this example, we're using the hash as is and just storing it in the database
     result := db.Save(&user)
@@ -150,7 +155,7 @@ func main() {
 		fmt.Println("generate access code called")
         generateAccessCode(db, w, r)
     }).Methods("POST")
-	
+
     router.HandleFunc("/fetch-data", func(w http.ResponseWriter, r *http.Request) {
         fetchUserData(db, w, r)
     }).Methods("GET")
