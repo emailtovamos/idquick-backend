@@ -12,7 +12,7 @@ import (
     // "github.com/ethereum/go-ethereum"
     // "github.com/ethereum/go-ethereum/common"
     // "github.com/ethereum/go-ethereum/crypto"
-    "github.com/ethereum/go-ethereum/ethclient"
+    // "github.com/ethereum/go-ethereum/ethclient"
     "github.com/gorilla/mux"
     "gorm.io/driver/postgres"
     "gorm.io/gorm"
@@ -60,14 +60,14 @@ func initDB() *gorm.DB {
     return db
 }
 
-// Connect to Ethereum client
-func initEthClient() *ethclient.Client {
-    client, err := ethclient.Dial(("https://mainnet.infura.io/v3/01824eaff1034d75a36503b74af45477"))
-    if err != nil {
-        log.Fatalf("Failed to connect to the Ethereum client: %v", err)
-    }
-    return client
-}
+// // Connect to Ethereum client
+// func initEthClient() *ethclient.Client {
+//     client, err := ethclient.Dial(("https://mainnet.infura.io/v3/01824eaff1034d75a36503b74af45477"))
+//     if err != nil {
+//         log.Fatalf("Failed to connect to the Ethereum client: %v", err)
+//     }
+//     return client
+// }
 
 // Register user data
 func registerUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
@@ -140,10 +140,10 @@ func fetchUserData(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 
 func main() {
     db := initDB()
-    ethClient := initEthClient()
+    // ethClient := initEthClient()
 
-    // Unused in this example, but included for completeness
-    _ = ethClient
+    // // Unused in this example, but included for completeness
+    // _ = ethClient
 
     router := mux.NewRouter()
 
