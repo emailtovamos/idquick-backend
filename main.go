@@ -30,7 +30,7 @@ type User struct {
 func enableCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Set CORS headers
-		w.Header().Set("Access-Control-Allow-Origin", "https://idquick-satodas-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/") // allow requests from React frontend
+		w.Header().Set("Access-Control-Allow-Origin", "https://idquick-satodas-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com") // allow requests from React frontend
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 
