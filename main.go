@@ -31,6 +31,8 @@ func enableCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Set CORS headers
 		w.Header().Set("Access-Control-Allow-Origin", "https://idquick-satodas-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com") // allow requests from React frontend
+		// w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000") // allow requests from React frontend
+
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 
@@ -50,7 +52,9 @@ func initDB() *gorm.DB {
 	// psql -U newuser -d satyajit
 
     dsn := "host=postgresql user=newuser password=password dbname=satyajit port=5432 sslmode=disable TimeZone=Asia/Shanghai"
-    db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	// dsn = "host=localhost user=newuser password=password dbname=satyajit port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
     if err != nil {
         log.Fatalf("failed to connect database: %v", err)
     }
